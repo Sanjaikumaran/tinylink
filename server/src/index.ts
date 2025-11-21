@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
@@ -9,32 +9,60 @@ import authRouter from "./routes/auth";
 import { pool, testDb } from "./db";
 
 const app = express();
-app.use(cors());
+
+// CORS
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (
+        !origin ||
+        origin.includes("localhost") ||
+        origin.endsWith(".vercel.app")
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json());
 
-app.get("/healthz", (req, res) => {
-  res.json({ ok: true, version: "1.0" });
+// Health check endpoint
+app.get("/healthz", (req: Request, res: Response) => {
+  return res.json({ ok: true, version: "1.0" });
 });
 
+// Public & private APIs
 app.use("/api/links", linksRouter);
 app.use("/api/private/links", privateLinksRouter);
 app.use("/api/auth", authRouter);
 
-app.get("/:code", async (req, res) => {
+// Redirect handler
+app.get("/:code", async (req: Request, res: Response) => {
   try {
     const code = req.params.code;
+
     if (!/^[A-Za-z0-9]{6,8}$/.test(code)) {
       return res.status(404).send("Not found");
     }
+
     const q = await pool.query("SELECT target_url FROM links WHERE code=$1", [
       code,
     ]);
+
     if (q.rowCount === 0) return res.status(404).send("Not found");
+
     const target = q.rows[0].target_url as string;
+
     await pool.query(
-      "UPDATE links SET total_clicks = total_clicks + 1, last_clicked = now() WHERE code=$1",
+      "UPDATE links SET total_clicks = total_clicks + 1, last_clicked = NOW() WHERE code=$1",
       [code]
     );
+
     return res.redirect(302, target);
   } catch (err) {
     console.error(err);
@@ -44,11 +72,16 @@ app.get("/:code", async (req, res) => {
 
 const PORT = Number(process.env.PORT || 5000);
 
-testDb().catch((e) => {
-  console.error("DB test failed", e);
-  process.exit(1);
-});
+testDb()
+  .then(() => {
+    console.log("Database connected.");
+  })
+  .catch((err) => {
+    console.error("Database connection failed:", err);
+    process.exit(1);
+  });
 
+// Start server
 app.listen(PORT, () => {
-  console.log(`TinyLink server listening on port ${PORT}`);
+  console.log(`TinyLink server running at http://localhost:${PORT}`);
 });
