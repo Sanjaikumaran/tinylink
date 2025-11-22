@@ -12,19 +12,18 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*",
-    //origin: (origin, callback) => {
-    //  if (
-    //    !origin ||
-    //    origin.includes("*") ||
-    //    origin.includes("localhost") ||
-    //    origin.endsWith(".vercel.app")
-    //  ) {
-    //    callback(null, true);
-    //  } else {
-    //    callback(new Error("Not allowed by CORS"));
-    //  }
-    //},
+    origin: (origin, callback) => {
+      if (
+        !origin ||
+        origin.includes("*") ||
+        origin.includes("localhost") ||
+        origin.endsWith(".vercel.app")
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
