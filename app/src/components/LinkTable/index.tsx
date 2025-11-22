@@ -26,7 +26,7 @@ export default function LinkTables({
     code: l.code,
     target_url: l.target_url,
     total_clicks: l.total_clicks,
-    tiny_url: window.location.origin + `/${l.code}`,
+    tiny_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${l.code}`,
     last_clicked: String(formatDate(new Date(l.last_clicked))),
     actions: (
       <div className="action-buttons">

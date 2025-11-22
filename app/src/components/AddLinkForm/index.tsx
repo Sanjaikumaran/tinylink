@@ -35,7 +35,7 @@ export default function AddLinkForm({ refresh }: { refresh: () => void }) {
         target_url: url,
         code,
       });
-      const generated = `${window.location.origin}/${res.data.code}`;
+      const generated = `${process.env.NEXT_PUBLIC_BASE_URL}/${res.data.code}`;
 
       setShortLink(generated);
       setLocked(true);
