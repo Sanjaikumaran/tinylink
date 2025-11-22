@@ -4,44 +4,37 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import linksRouter from "./routes/publicLinks";
-import privateLinksRouter from "./routes/privateLinks";
-import authRouter from "./routes/auth";
+import healthRoute from "./routes/health";
+
 import { pool, testDb } from "./db";
 
 const app = express();
 
-// CORS
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (
-        !origin ||
-        origin.includes("localhost") ||
-        origin.endsWith(".vercel.app")
-      ) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "*",
+    //origin: (origin, callback) => {
+    //  if (
+    //    !origin ||
+    //    origin.includes("*") ||
+    //    origin.includes("localhost") ||
+    //    origin.endsWith(".vercel.app")
+    //  ) {
+    //    callback(null, true);
+    //  } else {
+    //    callback(new Error("Not allowed by CORS"));
+    //  }
+    //},
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
 app.use(express.json());
+app.use("/healthz", healthRoute);
 
-// Health check endpoint
-app.get("/healthz", (req: Request, res: Response) => {
-  return res.json({ ok: true, version: "1.0" });
-});
-
-// Public & private APIs
 app.use("/api/links", linksRouter);
-app.use("/api/private/links", privateLinksRouter);
-app.use("/api/auth", authRouter);
 
-// Redirect handler
 app.get("/:code", async (req: Request, res: Response) => {
   try {
     const code = req.params.code;
@@ -81,7 +74,6 @@ testDb()
     process.exit(1);
   });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`TinyLink server running at http://localhost:${PORT}`);
 });

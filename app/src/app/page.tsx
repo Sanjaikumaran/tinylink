@@ -2,15 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
-import AddLinkForm from "@/components/AddLinkForm";
 import LinkTable from "@/components/LinkTable";
 import { LinkType } from "@/types/types";
+import { ToastProvider } from "@/components/Toast";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
   const [links, setLinks] = useState<Array<LinkType>>([]);
 
   async function load() {
     const res = await api.get("/api/links");
+    setLoading(false);
     setLinks(res.data as LinkType[]);
   }
 
@@ -25,8 +27,15 @@ export default function Home() {
 
   return (
     <>
-      <AddLinkForm refresh={load} />
-      <LinkTable links={links} onDelete={del} />
+      <ToastProvider>
+        <h1 className="title">Tiny Link</h1>
+        <LinkTable
+          links={links}
+          onDelete={del}
+          refresh={load}
+          loading={loading}
+        />
+      </ToastProvider>
     </>
   );
 }
