@@ -49,8 +49,11 @@ function StatsComponent() {
       </div>
     );
 
-  const fullURL = `${window.location.origin}/${data.code}`;
+  const [fullURL, setFullURL] = useState("");
 
+  useEffect(() => {
+    setFullURL(`${window.location.origin}/${data.code}`);
+  }, [data.code]);
   return (
     <div className="stats-container" data-testid="stats-container">
       <h1 className="stats-title" data-label="stats-title">
