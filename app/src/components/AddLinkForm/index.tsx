@@ -55,16 +55,20 @@ export default function AddLinkForm({ refresh }: { refresh: () => void }) {
     setLocked(false);
     showToast("Ready to create another link", "info");
   }
-  return (
-    <div className="card">
-      <h2 className="modal-title">Create a Short Link</h2>
 
-      <div className="modal-content">
+  return (
+    <div className="card" data-testid="addlink-card">
+      <h2 className="modal-title" data-testid="addlink-title">
+        Create a Short Link
+      </h2>
+
+      <div className="modal-content" data-testid="addlink-form">
         {!shortLink && (
-          <p className="modal-desc">
+          <p className="modal-desc" data-testid="form-description">
             Generate a short, easy-to-share link for any long URL.
           </p>
         )}
+
         {!locked && (
           <>
             <label className="modal-label">Destination URL</label>
@@ -73,6 +77,8 @@ export default function AddLinkForm({ refresh }: { refresh: () => void }) {
               className="modal-input"
               placeholder="https://your-long-url.com/page"
               value={url}
+              data-testid="input-url"
+              data-label="destination-url"
               onChange={(e) => setUrl(e.target.value)}
             />
 
@@ -83,6 +89,8 @@ export default function AddLinkForm({ refresh }: { refresh: () => void }) {
               className="modal-input"
               placeholder="my-custom-code"
               value={code}
+              data-testid="input-code"
+              data-label="custom-code"
               onChange={(e) => {
                 setCode(e.target.value);
                 setAvailable(null);
@@ -90,15 +98,21 @@ export default function AddLinkForm({ refresh }: { refresh: () => void }) {
             />
 
             {available === true && (
-              <div className="available-msg">✔ Code available</div>
+              <div className="available-msg" data-testid="code-available-msg">
+                ✔ Code available
+              </div>
             )}
+
             {available === false && (
-              <div className="error">✖ Code already taken</div>
+              <div className="error" data-testid="code-taken-msg">
+                ✖ Code already taken
+              </div>
             )}
 
             <button
               className="modal-btn"
               onClick={submit}
+              data-testid="btn-generate"
               disabled={loading || Boolean(code && available === false)}
             >
               {loading ? "Loading..." : "Generate Link"}
@@ -108,32 +122,48 @@ export default function AddLinkForm({ refresh }: { refresh: () => void }) {
 
         {shortLink && (
           <>
-            <div className="generated-box">
+            <div className="generated-box" data-testid="generated-section">
               <h3>Your Short Link</h3>
-              <div className="short-url-box generated-link">
+
+              <div
+                className="short-url-box generated-link"
+                data-testid="generated-link"
+              >
                 <a href={shortLink} target="_blank">
                   {shortLink}
                 </a>
               </div>
 
-              <QRCodeGenerator url={shortLink} code={code} />
+              <QRCodeGenerator
+                url={shortLink}
+                code={code}
+                data-testid="qr-section"
+              />
 
               <div className="generated-actions">
                 <div className="button-wrapper">
                   <button
                     className="copy-btn"
+                    data-testid="btn-copy"
                     onClick={() => showToast(copyToClipboard(shortLink))}
                   >
                     Copy Link <FaCopy />
                   </button>
+
                   <button
                     className="share-btn"
+                    data-testid="btn-share"
                     onClick={() => showToast(shareLink(shortLink))}
                   >
                     Share Link <FaShare />
                   </button>
                 </div>
-                <button className="reset-btn" onClick={resetForm}>
+
+                <button
+                  className="reset-btn"
+                  onClick={resetForm}
+                  data-testid="btn-reset"
+                >
                   Create Another Link
                 </button>
               </div>

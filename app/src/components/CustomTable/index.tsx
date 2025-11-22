@@ -105,14 +105,22 @@ export default function CustomTable(props: CustomTableProps) {
 
   return (
     <>
-      <div className="table-container">
-        <div className="table-controls">
-          {tableName && <div className="table-name">{tableName}</div>}
+      <div className="table-container" data-testid="table-container">
+        <div className="table-controls" data-testid="table-controls">
+          {tableName && (
+            <div className="table-name" data-testid="table-name">
+              {tableName}
+            </div>
+          )}
 
-          <div className="table-search-wrapper">
+          <div
+            className="table-search-wrapper"
+            data-testid="table-search-wrapper"
+          >
             {AddLinkForm && (
               <button
                 className="add-link-btn"
+                data-testid="add-link-btn"
                 onClick={() => setIsAddLinkFormOpen(!isAddLinkFormOpen)}
               >
                 Add Link
@@ -127,37 +135,47 @@ export default function CustomTable(props: CustomTableProps) {
             )}
 
             {searchable && (
-              <>
-                <input
-                  type="text"
-                  placeholder="Search"
-                  value={search}
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                    setPage(1);
-                  }}
-                  className="table-search"
-                />
-              </>
+              <input
+                type="text"
+                placeholder="Search"
+                value={search}
+                data-testid="table-search-input"
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setPage(1);
+                }}
+                className="table-search"
+              />
             )}
           </div>
         </div>
 
-        <div className="table-scroll-area">
+        <div className="table-scroll-area" data-testid="table-scroll-area">
           {!isLoading ? (
             data?.length && pageData?.length ? (
-              <table className="task-table">
+              <table className="task-table" data-testid="custom-table">
                 <thead>
                   <tr>
-                    <th key={"S.No"} onClick={() => toggleSort("S.No")}>
+                    <th
+                      key={"S.No"}
+                      data-testid="header-sno"
+                      onClick={() => toggleSort("S.No")}
+                    >
                       S.No
                     </th>
                     {columnsSelected.map((col) => (
-                      <th key={col.key} onClick={() => toggleSort(col.key)}>
+                      <th
+                        key={col.key}
+                        data-testid={`header-${col.key}`}
+                        onClick={() => toggleSort(col.key)}
+                      >
                         <div className="table-header-inner">
                           {formatColumnHeader(col.label)}
                           {sortCol === col.key && (
-                            <span style={{ marginLeft: 6, color: "#1f1f1fff" }}>
+                            <span
+                              style={{ marginLeft: 6, color: "#1f1f1fff" }}
+                              data-testid={`sort-indicator-${col.key}`}
+                            >
                               {sortDir === "asc" ? "▴" : "▾"}
                             </span>
                           )}
@@ -169,25 +187,41 @@ export default function CustomTable(props: CustomTableProps) {
 
                 <tbody>
                   {pageData.map((row, rowIdx) => (
-                    <tr key={rowIdx} onClick={() => onRowClick?.(row)}>
-                      <td data-label="S.No">{rowIdx + 1}</td>
+                    <tr
+                      key={rowIdx}
+                      data-testid={`row-${rowIdx}`}
+                      onClick={() => onRowClick?.(row)}
+                    >
+                      <td data-label="S.No" data-testid={`cell-${rowIdx}-sno`}>
+                        {rowIdx + 1}
+                      </td>
                       {columnsSelected.map((col) => (
-                        <td key={col.key}>{row[col.key] ?? "-"}</td>
+                        <td
+                          key={col.key}
+                          data-label={formatColumnHeader(col.label)}
+                          data-testid={`cell-${rowIdx}-${col.key}`}
+                        >
+                          {row[col.key] ?? "-"}
+                        </td>
                       ))}
                     </tr>
                   ))}
                 </tbody>
               </table>
             ) : (
-              <div className="empty-state">No data available</div>
+              <div className="empty-state" data-testid="empty-state">
+                No data available
+              </div>
             )
           ) : (
-            <div className="loading-indicator">Loading...</div>
+            <div className="loading-indicator" data-testid="loading-indicator">
+              Loading...
+            </div>
           )}
         </div>
 
-        <div className="pagination">
-          <div className="page-size-select">
+        <div className="pagination" data-testid="pagination">
+          <div className="page-size-select" data-testid="page-size-select">
             <select
               value={selectedValue}
               onChange={(e) => {
@@ -195,6 +229,7 @@ export default function CustomTable(props: CustomTableProps) {
                 setPageSize(newSize);
                 setPage(1);
               }}
+              data-testid="page-size-dropdown"
             >
               {totalRows !== 0 && !pageSizeOptions.includes(totalRows) && (
                 <option value={totalRows}>{totalRows}</option>
@@ -208,18 +243,26 @@ export default function CustomTable(props: CustomTableProps) {
             / {totalRows} rows per page
           </div>
 
-          <div className="pagination-controls">
-            <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+          <div
+            className="pagination-controls"
+            data-testid="pagination-controls"
+          >
+            <button
+              disabled={page === 1}
+              onClick={() => setPage(page - 1)}
+              data-testid="prev-page-btn"
+            >
               Prev
             </button>
 
-            <span>
+            <span data-testid="page-info">
               Page {page} of {totalPages}
             </span>
 
             <button
               disabled={page === totalPages}
               onClick={() => setPage(page + 1)}
+              data-testid="next-page-btn"
             >
               Next
             </button>
@@ -228,8 +271,15 @@ export default function CustomTable(props: CustomTableProps) {
       </div>
 
       {isAddLinkFormOpen && (
-        <div className="add-link-form-wrapper">
-          <div className="add-link-form" ref={containerRef}>
+        <div
+          className="add-link-form-wrapper"
+          data-testid="add-link-form-wrapper"
+        >
+          <div
+            className="add-link-form"
+            ref={containerRef}
+            data-testid="add-link-form"
+          >
             {AddLinkForm &&
               (typeof AddLinkForm === "function" ? (
                 <AddLinkForm />
@@ -278,19 +328,32 @@ export const ColumnSelector = ({
   };
 
   return (
-    <div className="column-select-wrapper" ref={containerRef}>
-      <button className="dropdown-btn" onClick={() => setOpen(!open)}>
+    <div
+      className="column-select-wrapper"
+      ref={containerRef}
+      data-testid="column-selector"
+    >
+      <button
+        className="dropdown-btn"
+        onClick={() => setOpen(!open)}
+        data-testid="column-selector-btn"
+      >
         Columns ({selectedColumns.length})
       </button>
 
       {open && (
-        <div className="dropdown-menu">
+        <div className="dropdown-menu" data-testid="column-selector-menu">
           {allColumns.map((col) => (
-            <label key={col.key} className="dropdown-item">
+            <label
+              key={col.key}
+              className="dropdown-item"
+              data-testid={`column-item-${col.key}`}
+            >
               <input
                 type="checkbox"
                 checked={selectedColumns.some((c) => c.key === col.key)}
                 onChange={() => toggleColumn(col)}
+                data-testid={`column-checkbox-${col.key}`}
               />
               {formatColumnHeader(col.label)}
             </label>

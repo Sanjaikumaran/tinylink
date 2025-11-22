@@ -15,16 +15,28 @@ export default function ConfirmModal({
   if (!open) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="confirm-modal">
-        <p className="confirm-text">{message}</p>
+    <div className="modal-overlay" data-testid="confirm-modal-overlay">
+      <div className="confirm-modal" data-testid="confirm-modal">
+        <p className="confirm-text" data-testid="confirm-message">
+          {message}
+        </p>
 
-        <div className="confirm-actions">
-          <button className="confirm-btn delete" onClick={onConfirm}>
+        <div className="confirm-actions" data-testid="confirm-actions">
+          <button
+            className="confirm-btn delete"
+            onClick={onConfirm}
+            data-testid="btn-confirm"
+            data-label="delete-confirm"
+          >
             Yes, Delete
           </button>
 
-          <button className="confirm-btn cancel" onClick={onCancel}>
+          <button
+            className="confirm-btn cancel"
+            onClick={onCancel}
+            data-testid="btn-cancel"
+            data-label="cancel-confirm"
+          >
             Cancel
           </button>
         </div>

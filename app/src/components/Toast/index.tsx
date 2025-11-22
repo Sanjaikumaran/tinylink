@@ -25,7 +25,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={{ showToast }}>
       {children}
 
-      {toast && <div className={`toast toast-${toast.type}`}>{toast.msg}</div>}
+      {toast && (
+        <div
+          className={`toast toast-${toast.type}`}
+          data-testid="toast-message"
+          data-toast-type={toast.type}
+        >
+          {toast.msg}
+        </div>
+      )}
     </ToastContext.Provider>
   );
 }

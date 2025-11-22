@@ -26,16 +26,20 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <div data-testid="dashboard-page">
       <ToastProvider>
-        <h1 className="title">Tiny Link</h1>
+        <h1 className="title" data-testid="dashboard-title">
+          Tiny Link
+        </h1>
+
         <LinkTable
           links={links}
           onDelete={del}
           refresh={load}
           loading={loading}
+          data-testid="link-table"
         />
       </ToastProvider>
-    </>
+    </div>
   );
 }

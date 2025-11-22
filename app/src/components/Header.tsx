@@ -5,10 +5,19 @@ const healthz = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Header() {
   return (
-    <header>
-      <nav>
-        <Link href="/">Dashboard</Link>
-        <a href={`${healthz ?? ""}/healthz`}>Health Check</a>
+    <header data-testid="header">
+      <nav data-testid="header-nav">
+        <Link href="/" data-testid="dashboard-link">
+          Dashboard
+        </Link>
+        <a
+          href={`${healthz ?? ""}/healthz`}
+          data-testid="health-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Health Check
+        </a>
       </nav>
     </header>
   );
