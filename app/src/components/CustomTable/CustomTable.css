@@ -148,10 +148,8 @@
   flex: 1;
   overflow: auto;
   min-height: 500px;
-  display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
   min-height: 400px;
   max-height: calc(100vh - 350px);
   border: 1px solid rgba(183, 183, 183, 0.5);

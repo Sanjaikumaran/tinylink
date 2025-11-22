@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CODE_REGEX = void 0;
 exports.generateRandomCode = generateRandomCode;
 exports.normalizeUrl = normalizeUrl;
-exports.CODE_REGEX = /^[A-Za-z0-9]{6,8}$/;
+exports.CODE_REGEX = /^[A-Za-z0-9]+$/;
 function generateRandomCode(length = 6) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let out = "";
