@@ -75,32 +75,32 @@ TinyLink is a URL shortening web application similar to Bit.ly. It allows users 
 
 ```bash
 git clone https://github.com/yourusername/tinylink.git
-cd tinylink
+cd tinylink```
 
 ---
 2. Config Client
 
 ```bash
 cd app
-npm install
+npm install```
 
 Add environment variables
 
 Start Client
 ```bash
-npm start
+npm start```
 
 3. Config Server
 
 ```bash
 cd server
-npm install
+npm install```
 
 Add environment variables
 
 Start Server
 ```bash
-npm start
+npm start```
 
 
 
