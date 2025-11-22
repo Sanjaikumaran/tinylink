@@ -1,6 +1,6 @@
-function downloadQR(code: string, svgSelector = "#qr-wrapper svg") {
-  const svg = document.querySelector<SVGSVGElement>(svgSelector);
-  if (!svg) return false;
+function downloadQR(code: string) {
+  const svg = document.querySelector("#qr-wrapper svg");
+  if (!svg) return;
 
   const serializer = new XMLSerializer();
   const svgData = serializer.serializeToString(svg);
@@ -30,13 +30,11 @@ function downloadQR(code: string, svgSelector = "#qr-wrapper svg") {
   };
 
   img.src = url;
-  return true;
 }
 
 function copyToClipboard(text: string) {
-  if (!navigator.clipboard) return false;
   navigator.clipboard.writeText(text);
-  return true;
+  return "Copied to clipboard!";
 }
 
 function formatDate(date: Date) {
