@@ -5,7 +5,6 @@ dotenv.config();
 
 import linksRouter from "./routes/publicLinks";
 import healthRoute from "./routes/health";
-
 import { pool, testDb } from "./db";
 import { CODE_REGEX } from "./utils";
 
@@ -32,13 +31,11 @@ app.use(
 
 app.use(express.json());
 app.use("/healthz", healthRoute);
-
 app.use("/api/links", linksRouter);
 
 app.get("/:code", async (req: Request, res: Response) => {
   try {
     const code = req.params.code;
-    console.log(!CODE_REGEX.test(code));
 
     if (!CODE_REGEX.test(code)) {
       return res.status(404).send("Code not found");
@@ -57,24 +54,15 @@ app.get("/:code", async (req: Request, res: Response) => {
       [code]
     );
 
-    return res.redirect(302, target);
+    return res.status(200).json({ target });
   } catch (err) {
     console.error(err);
     return res.status(500).send("Server Error");
   }
 });
 
-const PORT = Number(process.env.PORT || 5000);
-
 testDb()
-  .then(() => {
-    console.log("Database connected.");
-  })
-  .catch((err) => {
-    console.error("Database connection failed:", err);
-    process.exit(1);
-  });
+  .then(() => console.log("Database connected."))
+  .catch((err) => console.error("Database connection failed:", err));
 
-app.listen(PORT, () => {
-  console.log(`TinyLink server running at http://localhost:${PORT}`);
-});
+export default app;
