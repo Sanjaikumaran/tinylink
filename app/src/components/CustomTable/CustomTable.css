@@ -53,6 +53,7 @@
   background-color: #ffffff;
   padding: 8px 14px;
   border-radius: 8px;
+  color: #000;
   border: 1px solid #dcdcdc;
   width: 260px;
   max-width: 100%;
@@ -282,6 +283,9 @@
 
   .table-scroll-area {
     margin: 4px;
+  }
+  .dropdown-menu {
+    left: -80px;
   }
 
   .pagination {

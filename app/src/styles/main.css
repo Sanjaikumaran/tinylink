@@ -35,3 +35,9 @@ header nav a {
   color: #333;
   margin-bottom: 20px;
 }
+
+@media (max-width: 900px) {
+  .container {
+    width: 100%;
+  }
+}

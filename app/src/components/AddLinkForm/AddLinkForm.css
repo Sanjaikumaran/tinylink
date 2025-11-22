@@ -1,6 +1,6 @@
 .modal-content {
-  width: 520px;
-  padding: 24px;
+  min-width: 520px;
+  padding: 14px;
   background: #ffffff;
   border-radius: 16px;
   max-height: calc(100vh - 120px);
@@ -9,7 +9,6 @@
   display: flex;
   gap: 20px;
   flex-direction: column;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 .modal-title {
@@ -26,6 +25,7 @@
   border: 1px solid #d1d1d1;
   font-size: 15px;
   transition: 0.2s;
+  color: #000;
   background: #fafafa;
 }
 
@@ -84,7 +84,7 @@
 
 .generated-actions button {
   margin: 6px;
-  padding: 10px 18px;
+  padding: 10px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -140,5 +140,80 @@
   to {
     opacity: 1;
     transform: translateY(0px) scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    min-width: 350px;
+
+    padding: 10px;
+    border-radius: 14px;
+    max-height: calc(100vh - 60px);
+    gap: 16px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .modal-input {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+
+  .modal-btn {
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 8px;
+  }
+
+  .generated-box {
+    padding: 16px;
+    margin-top: 18px;
+  }
+
+  .generated-link {
+    font-size: 16px;
+    word-break: break-word;
+  }
+
+  .generated-actions button {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .button-wrapper {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .copy-btn,
+  .share-btn,
+  .reset-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+  }
+}
+
+/* Ultra small phones */
+@media (max-width: 380px) {
+  .modal-content {
+    width: 94%;
+    padding: 14px;
+  }
+
+  .modal-title {
+    font-size: 17px;
+  }
+
+  .modal-input {
+    font-size: 13px;
+  }
+
+  .generated-link {
+    font-size: 15px;
   }
 }
