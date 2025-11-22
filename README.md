@@ -69,38 +69,53 @@ TinyLink is a URL shortening web application similar to Bit.ly. It allows users 
 
 ---
 
+## Features & Behavior
+
+- **Short Code Rules:** Codes must match `[A-Za-z0-9]{6,8}` and be globally unique.
+- **Redirect:** Accessing a valid short code increments the click count and updates the last clicked time.
+- **Deletion:** Deleted codes return `404` and no longer redirect.
+- **Dashboard:** Supports adding links with optional custom codes, deleting links, searching, and filtering.
+- **Stats Page:** Shows detailed information for a single link.
+- **Healthcheck:** Returns JSON status, including uptime and system info.
+
+---
+
 ## Installation
 
 1. Clone the repository:
 
 ```bash
 git clone https://github.com/yourusername/tinylink.git
-cd tinylink```
+cd tinylink
+```
 
----
 2. Config Client
 
 ```bash
 cd app
-npm install```
+npm install
+```
 
 Add environment variables
 
 Start Client
 ```bash
-npm start```
+npm start
+```
 
 3. Config Server
 
 ```bash
 cd server
-npm install```
+npm install
+```
 
 Add environment variables
 
 Start Server
 ```bash
-npm start```
+npm start
+```
 
 
 
