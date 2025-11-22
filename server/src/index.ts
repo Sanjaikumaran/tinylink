@@ -7,6 +7,7 @@ import linksRouter from "./routes/publicLinks";
 import healthRoute from "./routes/health";
 
 import { pool, testDb } from "./db";
+import { CODE_REGEX } from "./utils";
 
 const app = express();
 
@@ -37,16 +38,17 @@ app.use("/api/links", linksRouter);
 app.get("/:code", async (req: Request, res: Response) => {
   try {
     const code = req.params.code;
+    console.log(!CODE_REGEX.test(code));
 
-    if (!/^[A-Za-z0-9]{6,8}$/.test(code)) {
-      return res.status(404).send("Not found");
+    if (!CODE_REGEX.test(code)) {
+      return res.status(404).send("Code not found");
     }
 
     const q = await pool.query("SELECT target_url FROM links WHERE code=$1", [
       code,
     ]);
 
-    if (q.rowCount === 0) return res.status(404).send("Not found");
+    if (q.rowCount === 0) return res.status(404).send("Data Not found");
 
     const target = q.rows[0].target_url as string;
 
