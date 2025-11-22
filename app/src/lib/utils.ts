@@ -49,7 +49,7 @@ function formatDate(date: Date) {
 }
 
 function shareLink(fullURL: string | undefined) {
-  if (!fullURL) return "Link not found";
+  if (!fullURL) return "404 Link not found";
   if (navigator.share) {
     navigator.share({
       title: "Short Link",

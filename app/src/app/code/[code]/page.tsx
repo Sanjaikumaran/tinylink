@@ -45,7 +45,7 @@ function StatsComponent() {
   if (data === "ERROR")
     return (
       <div className="stats-error" data-testid="stats-error">
-        Link not found!
+     404  Link not found!
       </div>
     );
 
